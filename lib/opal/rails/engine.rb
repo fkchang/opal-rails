@@ -20,9 +20,13 @@ module Opal
       end
 
       initializer 'opal.asset_paths', :after => 'sprockets.environment', :group => :all do |app|
+        app.assets.append_path app.root.join(app.config.opal.spec_location).to_s
         Opal.paths.each do |path|
           app.assets.append_path path
         end
+        puts "\n\n\nAfter opal.asset_paths"
+        p app.assets.paths
+
       end
 
       config.after_initialize do |app|
@@ -45,6 +49,8 @@ module Opal
           get '/opal_spec' => 'opal_spec#run'
           get '/opal_spec_files/*path' => 'opal_spec#file'
         end
+        puts "\n\n\nAfter initialize"
+        p app.assets.paths
       end
 
     end

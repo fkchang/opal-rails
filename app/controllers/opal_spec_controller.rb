@@ -7,6 +7,7 @@ class OpalSpecController < ActionController::Base
   def file
     spec_file = Dir["#{spec_location}/#{params[:path]}*.{rb,opal}"].first
     Opal.paths.concat Rails.application.config.assets.paths
+    Opal.paths << Rails.application.root.join(Rails.application.config.opal.spec_location).to_s
     builder = Opal::Builder.new
     file = File.new spec_file
     builder.build_str file.read, spec_file
